@@ -1,29 +1,70 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "../store/index";
+Vue.use(VueRouter);
 
-Vue.use(VueRouter)
-
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/auth",
+    component: () =>
+      import(
+        /* webpackChunkName: "auth-layout" */ "../components/Auth-Layout.vue"
+      ),
+    children: [
+      {
+        path: "sign-in",
+        name: "signIn",
+        component: () =>
+          import(/* webpackChunkName: "sign-in" */ "../views/Sign-In.vue"),
+      },
+      {
+        path: "sign-up",
+        name: "signUp",
+        component: () =>
+          import(/* webpackChunkName: "sign-up" */ "../views/Sign-Up.vue"),
+      },
+    ],
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/chat",
+    component: () =>
+      import(
+        /* webpackChunkName: "master-layout" */ "../components/Master-Layout.vue"
+      ),
+    beforeEnter: (to, from, next) => {
+      if (store.state.userConnected != null) {
+        next();
+      }
+      else
+      next({name:'signIn'});
+    },
+    children: [
+      {
+        path: "/",
+        name: "chat",
+        component: () =>
+          import(/* webpackChunkName: "chat" */ "../views/Chat.vue"),
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: () =>
+          import(/* webpackChunkName: "profile" */ "../views/Profile.vue"),
+      },
+    ],
+  },
+  {
+    path: "*",
+    name: "404",
+    component: () =>
+      import(/* webpackChunkName: "not-found" */ "../views/Not-Found.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
