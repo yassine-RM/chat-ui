@@ -2,7 +2,7 @@
 <v-navigation-drawer class="side-bar" width="370" flat app mobile-break-point="650" color="$accent">
     <v-row class="no-gutters pa-2">
         <v-col md="3">
-            <v-avatar size="60">
+            <v-avatar size="60" @click="profile(userConnected)">
                 <img :src="'http://localhost:5000/images/'+userConnected.image" alt="user" />
             </v-avatar>
         </v-col>
@@ -80,8 +80,16 @@ export default {
                 });
             }
         });
+
     },
     methods: {
+        profile(user) {
+            console.log('get profile')
+            this.$store.commit("setProfile", user);
+            this.$router.push({
+                name: "profile"
+            })
+        },
         setUser_setConv(user) {
             this.$store.commit("setLoadChat", true);
             this.$store.commit("setUserSelected", user);
@@ -93,10 +101,13 @@ export default {
                 user1: this.userConnected,
                 user2: user,
             });
-            console.log('between : ', {
+            this.$router.push({
+                name: "chat"
+            })
+            console.log("between : ", {
                 user1: this.userConnected.email,
                 user2: user.email,
-            })
+            });
         },
     },
     computed: {
@@ -111,6 +122,10 @@ export default {
 <style lang="scss" scoped>
 .side-bar ::v-deep {
     background: whitesmoke !important;
+
+    .v-avatar {
+        cursor: pointer;
+    }
 
     .msg-time {
         float: right;

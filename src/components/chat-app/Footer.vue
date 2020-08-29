@@ -64,6 +64,7 @@ export default {
             document.getElementById("file").click();
         },
         sendMessage() {
+            console.log("ref selected uer is : ", this.userSelected.ref)
             this.message.from = this.userConnected;
             this.message.to = this.userSelected;
             if (this.message.content.length > 0 || this.message.content.name.length > 0)

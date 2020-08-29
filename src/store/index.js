@@ -9,9 +9,14 @@ export default new Vuex.Store({
     userConnected:null,
     userSelected:null,
     conversationUsers:null,
-    loadChat:false
+    loadChat:false,
+    userProfile:null,
+    showNav:true
   },
   mutations: {
+    setShowNav(state,val){
+        state.showNav=val
+    },
     setUserConnected(state,userConnected){
         state.userConnected=userConnected
     },
@@ -23,6 +28,9 @@ export default new Vuex.Store({
     },
     setLoadChat(state,val){
         state.loadChat=val
+    },
+    setProfile(state,user){
+        state.userProfile=user
     }
   },
   actions: {

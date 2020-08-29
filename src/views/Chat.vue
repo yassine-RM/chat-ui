@@ -78,8 +78,17 @@ export default {
         };
     },
     mounted() {
+        this.$store.commit('setShowNav', true)
         this.$socket.client.emit("refreshRef", this.userConnected);
+        this.$socket.client.on("refreshRef", (user) => {
+            this.$store.commit('setUserConnected', user)
+            console.log('new ref : ', user)
+        });
         if (this.conversationUsers != null) {
+            this.$store.commit("setConversationUsers", {
+                user1: this.userConnected,
+                user2: this.userSelected,
+            });
             console.log("this.conversationUsers : ", this.conversationUsers);
             this.$socket.client.emit("getConvesation", this.conversationUsers);
         }
@@ -91,14 +100,17 @@ export default {
         this.$socket.client.on("sendMessage", (message) => {
             console.log('users updated : ', message.from, this.userSelected.email)
             if (message.from == this.userSelected.email) {
-                this.updateReadConv(message.from, this.userSelected.email)
-                console.log('equalze')
+                this.updateReadConv(message.from, this.userConnected.email)
             } else
-                this.messages.push(message)
+                this.$socket.client.emit("getConvesation", this.conversationUsers);
         });
-        this.$socket.client.on("refreshRef", (user) => {
-            this.$store.commit('setUserConnected', user)
-            console.log('new ref : ', user)
+
+        this.$socket.client.on("getConvesationUpdated", (users) => {
+            let data = {
+                user1: users.user1,
+                user2: users.user2
+            }
+            this.$socket.client.emit("getConvesation", data);
         });
     },
 
