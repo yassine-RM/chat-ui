@@ -3,7 +3,7 @@
     <v-row>
         <v-col class="text-center pl-10" cols="10">
             <v-text-field @keyup.enter="sendMessage()" v-model="message.content" prepend-inner-icon="mdi-tooltip-text-outline" label="Type a message" hide-details outlined dense rounded></v-text-field>
-            <v-file-input id="file" hidden @change="customFile"></v-file-input>
+            <v-file-input v-if="false" id="file" hidden @change="customFile"></v-file-input>
         </v-col>
         <v-col cols="2">
             <v-btn @click="openFile()" color="red" outlined class="mr-1" icon>

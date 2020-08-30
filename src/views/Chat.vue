@@ -68,8 +68,10 @@ import {
 import moment from "moment";
 
 export default {
+
     components: {
         "footer-app": footer,
+
     },
     name: "chat",
     data() {
@@ -115,6 +117,7 @@ export default {
     },
 
     methods: {
+
         updateReadConv(user1Email, user2Email) {
             this.$socket.client.emit("updateReadConv", {
                 user1_email: user1Email,
@@ -129,6 +132,7 @@ export default {
         },
     },
     computed: {
+
         ...mapState(["userConnected", "userSelected", "conversationUsers", "loadChat"]),
     },
 };

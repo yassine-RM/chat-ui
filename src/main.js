@@ -9,13 +9,14 @@ import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 // import VueRecord from '@codekraft-studio/vue-record'
 
-// import isMobile from "./helper.js"
-
+import detectMixin from "./helper.js"
 const socket = io('http://localhost:5000');
 
 Vue.use(VueSocketIOExt, socket);
 Vue.use(PerfectScrollbar);
-// Vue.use(VueRecord)
+Vue.mixin(
+ detectMixin
+)
 
 Vue.config.productionTip = false
 

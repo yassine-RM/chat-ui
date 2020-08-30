@@ -11,6 +11,7 @@
     "@codekraft-studio/vue-record": "0.0.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "mobile-device-detect": "^0.4.3",
     "moment": "^2.27.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
